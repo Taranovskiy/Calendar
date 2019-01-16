@@ -1,12 +1,13 @@
 <template>
   <div id="calendar-entry">
     <div class="calendar-entry-note">
-      <input type="text" placeholder="New Event">
+      <input type="text" placeholder="New Event" v-model="inputEntry" required>
       <p class="calendar-entry-day">
         Day of event:
         <span class="bold">{{activeDayTitle}}</span>
       </p>
-      <a class="button is-primary is-small is-outlined">Submit</a>
+      <p :style="errorStyle" v-if="error">You must type something first</p>
+      <a class="button is-primary is-small is-outlined" @click="submitEvent()">Submit</a>
     </div>
   </div>
 </template>
@@ -17,11 +18,30 @@ import { store } from "../store";
 export default {
   name: "CalendarEntry",
 
+  data() {
+    return {
+      inputEntry: '',
+      errorStyle: 'color: tomato; font-size: 13px;',
+      error: false
+    }
+  },
+
   computed: {
     activeDayTitle() {
       return store.getActiveDay().fullTitle;
     }
-  }
+  },
+
+  methods: {
+    submitEvent() {
+      if (this.inputEntry === '') {
+        return this.error = true;
+      }
+      store.submitEvent(this.inputEntry);
+      this.inputEntry = '';
+      this.error = false;
+    }
+  },
 };
 </script>
 
