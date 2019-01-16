@@ -1,20 +1,30 @@
 <template>
-  <div class="day column">
+  <div class="day column" v-on:click="setActiveDay(day.id)">
     <div class="day-banner has-text-white has-text-centered">{{ day.abbvTitle }}</div>
     <div class="day-details">
       <div class="day-number">{{ day.id }}</div>
-      <CalendarEvent/>
+      <CalendarEvent v-for="(event, index) in day.events" :key="index" :event="event" :day="day"/>
     </div>
   </div>
 </template>
 
 <script>
 import CalendarEvent from "./CalendarEvent.vue";
+import { store } from "../store";
+
 export default {
   name: "CalendarDay",
+
   props: ["day"],
+
   components: {
     CalendarEvent
+  },
+
+  methods: {
+    setActiveDay(dayId) {
+      store.setActiveDay(dayId);
+    }
   }
 };
 </script>

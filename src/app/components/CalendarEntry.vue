@@ -4,7 +4,7 @@
       <input type="text" placeholder="New Event">
       <p class="calendar-entry-day">
         Day of event:
-        <span class="bold">Monday</span>
+        <span class="bold">{{activeDayTitle}}</span>
       </p>
       <a class="button is-primary is-small is-outlined">Submit</a>
     </div>
@@ -12,8 +12,16 @@
 </template>
 
 <script>
+import { store } from "../store";
+
 export default {
-  name: "CalendarEntry"
+  name: "CalendarEntry",
+
+  computed: {
+    activeDayTitle() {
+      return store.getActiveDay().fullTitle;
+    }
+  }
 };
 </script>
 
