@@ -35,4 +35,10 @@ export const store = {
     targetEvent.details = newEventDetails;
     targetEvent.edit = false;
   },
+
+  deleteEvent(dayId, eventIndex) {
+    const targetDay = this.state.days.find(day => day.id === dayId);
+
+    targetDay.events.splice(eventIndex, 1);
+  },
 };

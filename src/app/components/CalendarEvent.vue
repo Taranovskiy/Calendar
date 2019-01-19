@@ -4,7 +4,7 @@
       <span class="has-text-centered details">{{ event.details }}</span>
       <div class="has-text-centered icons">
         <i class="fa fa-pencil-square edit-icon" @click="editEvent()"></i>
-        <i class="fa fa-trash-o delete-icon"></i>
+        <i class="fa fa-trash-o delete-icon" @click="deleteEvent()"></i>
       </div>
     </div>
     <div v-if="event.edit">
@@ -47,6 +47,10 @@ export default {
     updateEvent() {
       store.updateEvent(this.day.id, this.index, this.newEventDetails);
       this.newEventDetails = '';
+    },
+
+    deleteEvent() {
+      store.deleteEvent(this.day.id, this.index, this.newEventDetails);
     }
   },
 };
