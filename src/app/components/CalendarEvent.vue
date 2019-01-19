@@ -1,20 +1,35 @@
 <template>
   <div class="day-event" :style="getEventBackgroundColor">
-    <div>
+    <div v-if="!event.edit">
       <span class="has-text-centered details">{{ event.details }}</span>
       <div class="has-text-centered icons">
-        <i class="fa fa-pencil-square edit-icon"></i>
+        <i class="fa fa-pencil-square edit-icon" @click="editEvent()"></i>
         <i class="fa fa-trash-o delete-icon"></i>
       </div>
+    </div>
+    <div v-if="event.edit">
+      <input type="text" :placeholder="event.detail" v-model="newEventDetails">
+      <div class="has-text-centered icons">
+        <i class="fa fa-check" @click="updateEvent()"></i>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import { store } from "../store";
+
 export default {
   name: "CalendarEvent",
 
-  props: ["event", "day"],
+  data() {
+    return {
+      newEventDetails: ''
+    };
+  },
+
+  props: ["event", "day", "index"],
 
   computed: {
     getEventBackgroundColor() {
@@ -22,7 +37,18 @@ export default {
       let randomColor = colors[Math.floor(Math.random() * colors.length)];
       return `backgroundColor: ${randomColor}`;
     }
-  }
+  },
+
+  methods: {
+    editEvent() {
+      store.editEvent(this.day.id, this.index);
+    },
+
+    updateEvent() {
+      store.updateEvent(this.day.id, this.index, this.newEventDetails);
+      this.newEventDetails = '';
+    }
+  },
 };
 </script>
 

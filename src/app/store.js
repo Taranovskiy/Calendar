@@ -19,5 +19,20 @@ export const store = {
     const activeDay = this.getActiveDay();
 
     activeDay.events.push({ details, edit: false });
-  }
+  },
+
+  editEvent(dayId, eventIndex) {
+    const targetDay = this.state.days.find(day => day.id === dayId);
+    const targetEvent = targetDay.events[eventIndex];
+    
+    targetEvent.edit = true;
+  },
+  
+  updateEvent(dayId, eventIndex, newEventDetails) {
+    const targetDay = this.state.days.find(day => day.id === dayId);
+    const targetEvent = targetDay.events[eventIndex];
+
+    targetEvent.details = newEventDetails;
+    targetEvent.edit = false;
+  },
 };
